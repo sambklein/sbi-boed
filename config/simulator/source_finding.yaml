@@ -1,0 +1,3 @@
+---
+_target_: sbi_bax.simulators.source_finding.SourceFinding
+physical_dim: 2  # This is the only kwarg that will vary

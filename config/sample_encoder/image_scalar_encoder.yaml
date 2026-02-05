@@ -1,0 +1,4 @@
+---
+# Single trial encoder configuration
+_target_: sbi_bax.models.image_scalar_encoder.Cnn_Mlp_Encoder
+output_dim: 128  # latent_dim - must be divisible by num_heads

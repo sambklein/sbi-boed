@@ -1,0 +1,14 @@
+---
+# config/simulator/crystal_diffraction.yaml
+_target_: sbi_bax.simulators.crystal_diffraction.CrystalSimulator
+# Silicon crystal parameters
+structure_file: ${data_dir}/Si_mp-149_computed.cif
+# Physical parameters
+wavelength: 1.5406  # Angstroms
+detector_distance: 150.0  # mm
+detector_size: 50  # mm
+sample_size: 50
+pixel_resolution: 2  # mm/pixel
+
+# Device configuration
+# device: cuda

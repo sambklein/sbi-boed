@@ -1,0 +1,14 @@
+---
+# config/config.yaml
+defaults:
+  - hydra: no_store
+  - _self_
+output_dir: results/aggregated
+experiment_dirs:
+  # - results/standard_bo
+  # - results/standard_bo_0
+  # - results/standard_bo_1
+  - results/gp_bo
+  - results/random_acquisition_0
+  - results/random_acquisition_1
+group_by: experiment._target_

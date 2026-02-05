@@ -1,0 +1,3 @@
+---
+_target_: sbi_bax.simulators.source_finding.SourceFinding
+n_degree: 4

@@ -1,0 +1,20 @@
+[project]
+name = "sbi_bax"
+version = "0.1.0"
+description = "Simulation Based Inference for Bayesian Algorithm eXecution (BAX)."
+authors = [
+    {name = "Samuel Klein"},
+]
+requires-python = ">=3.11,<3.13"
+readme = "README.md"
+license = {text = "MIT"}
+
+[tool.ruff]
+exclude = ["*.ipynb"]
+
+[tool.ruff.lint]
+ignore = ["E731"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

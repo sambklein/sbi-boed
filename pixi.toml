@@ -1,0 +1,71 @@
+[project]
+name = "sbi_bax"
+version = "0.1.0"
+description = "Simulation Based Inference for Bayesian Algorithm eXecution (BAX)."
+authors = ["Samuel Klein"]
+channels = ["pytorch", "nvidia", "conda-forge"]
+platforms = ["osx-arm64", "osx-64", "linux-64"]
+
+[system-requirements]
+macos = "11.0"
+
+[dependencies]
+python = ">=3.11,<3.13"
+numpy = ">=1.20,<2.0"
+scipy = "*"
+matplotlib = "*"
+notebook = "<=6.4.12"  # Match sbi's requirement
+jupyter = "*"
+scikit-learn = ">=1.6.1"
+typer = ">=0.16.0"
+hydra-core = ">=1.3.2"
+hydra-colorlog = ">=1.2.0"
+pulp = ">=2.6"
+pymatgen = ">=2024.8.9"
+pytest = ">=8.4.1"
+scikit-image = "*"
+pywavelets = ">=1.9.0"
+torchsde = ">=0.2.6,<0.3"
+torch-optimizer = ">=0.3.0,<0.4"
+
+# PyPI-only packages that should work across all platforms
+[pypi-dependencies]
+nflows = "*"
+sbi = "==0.24.0"
+snakemake = "*"
+snakemake-executor-plugin-slurm = ">=1.5.0"
+# Install local package in editable mode
+sbi_bax = { path = ".", editable = true }
+gradoptics = ">=0.0.4, <0.0.5"
+
+# PyTorch for Apple Silicon Macs (Metal Performance Shaders)
+[feature.macos.dependencies]
+pytorch = { version = "*", channel = "pytorch" }
+torchvision = { version = "*", channel = "pytorch" }
+torchaudio = { version = "*", channel = "pytorch" }
+
+# PyTorch for Linux with CUDA - use more flexible versioning
+[feature.cuda.target.linux-64.dependencies]
+pytorch = { version = "*", channel = "pytorch" }
+pytorch-cuda = { version = "*", channel = "pytorch" }
+torchvision = { version = "*", channel = "pytorch" }
+torchaudio = { version = "*", channel = "pytorch" }
+
+[feature.dev.dependencies]
+black = ">=25.1.0"
+ruff = ">=0.11.13"
+yamllint = ">=1.37.1"
+pre-commit = ">=4.2.0"
+
+[environments]
+# Default environment for Apple Silicon Macs (Metal Performance Shaders support)
+default = { features = ["macos"], solve-group = "default" }
+# CUDA environment for Linux systems with GPU support
+cuda = { features = ["cuda"], solve-group = "cuda" }
+dev = { features = ["dev"] }
+
+[tasks]
+test = "pytest"
+lint = "ruff check ."
+format = "black ."
+check-yaml = "yamllint ."

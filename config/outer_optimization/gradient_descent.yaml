@@ -1,0 +1,15 @@
+---
+workdir: base_model
+pretrain: true
+n_theta: 100_000  # Number of theta samples for optimizing EIG
+max_batches: 10  # Max number of batches per outer optimization step
+n_mc_final: 200
+warmup:
+  lr: 1e-2
+  lr_flow: 1e-3
+  n_steps: 2_000
+  n_mc: 10
+  n_designs: 512
+  batch_size: 1028
+  burn_in: 100
+  steps_plot: 500

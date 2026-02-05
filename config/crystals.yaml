@@ -1,0 +1,60 @@
+---
+# config/config.yaml
+defaults:
+  - dataset_encoder: transformer
+  - sample_encoder: image_scalar_encoder
+  - simulator: crystal_diffraction
+  - hydra: default
+  - outer_optimization: default
+  - _self_
+experiment:
+  # _target_: sbi_bax.experiments.bo.UcbSbi
+  # _target_: sbi_bax.experiments.bo.StandardBoUcb
+  # _target_: sbi_bax.experiments.bax.InfoBax
+  _target_: sbi_bax.experiments.bax.MeanBax
+  # _target_: sbi_bax.experiments.random_select.RandomAcquisition
+  _partial_: true
+data:
+  _target_: sbi_bax.data.crystal.CrystalData
+  n_alg_path: 1
+  # prior_bounds: [0, 1.5708, -20, 20]  # [0, pi/2] radians
+  data_bounds: [-0.7854, 0.7854, -20, 20]  # [-pi/4, pi/4] radians
+  prior_bounds: [-0.3927, 0.3927, -20, 20]  # [-pi/8, pi/8] radians, crystal axis somewhat constrained
+  n_angles: 10
+  n_xy: 10
+  figure_dir: data_figures
+# Experiment settings
+seed: 42
+output_dir: results
+exp_name: constrained_crystal
+# data_dir: /sdf/home/s/samklein/sbi-bax/scripts/data/
+# data_dir: /Users/samklein/code/sbi-bax/scripts/data/
+data_dir: /data/
+
+# Interpolated variables
+full_path: ${output_dir}/${exp_name}
+# SBI training parameters
+sbi:
+  n_samples: 10_000
+  lr: 1e-3
+  batch_size: 256
+  max_epochs: 200
+  learning_rate: 1e-3
+  stop_after_epochs: 10
+  validation_fraction: 0.2
+  norm_theta: independent
+  from_scratch: true
+  model: nsf
+# Measurement parameters
+measurement:
+  maximize: true
+  max_measure: 20
+  max_grid_search: 10_000
+  use_weights: false
+  acq_l: 0.1
+# True parameters sbi tries to infer
+true_thetas: [0.1, 0.15, 0.08, 1, 2]  # Shift from prior center
+# Monte Carlo parameters
+mc:
+  n_mc_theta: 1000
+  n_mc_ea: 1000

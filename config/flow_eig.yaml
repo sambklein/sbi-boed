@@ -1,0 +1,55 @@
+---
+defaults:
+  - hydra: default
+  - _self_
+seed: 8
+output_dir: figures
+exp_name: bmi_sprial
+
+# Interpolated variables
+full_path: ${output_dir}/${exp_name}
+# Dataset definition
+# data:
+#   _target_: sbi_bax.data.eig_test_dists.GaussianToMultiModal
+#   n_samples: 100_000
+#   mean_current: [0.0, 0.0]  # Plain list instead of torch.zeros
+#   std_current: [1.0, 1.0]  # Plain list instead of torch.ones
+#   mean_updated:
+#     - [-0.5, -0.1]
+#     - [0.5, 0.3]
+#   covariance_updated:
+#     - [[0.1, 0.0], [0.0, 0.1]]
+#     - [[0.8, -0.2], [-0.2, 0.4]]
+#   weights: [0.6, 0.4]
+data:
+  _target_: sbi_bax.data.bmi_tasks.BMIDataset
+  n_sample: 100_000
+  task: spiral-multinormal-sparse-3-3-2-2.0
+  # task: spiral-multinormal-sparse-5-5-2-2.0
+  seed: ${seed}
+  # seed: 42
+# Model definitions
+current_posterior:
+  _target_: sbi_bax.models.flow.RqsPureContextFlow
+  n_layers: 4
+  identity_init: true
+  tail_bound: 4.5
+updated_posterior:
+  _target_: sbi_bax.models.flow.RqsPureContextFlow
+  n_layers: 4
+  identity_init: true
+  tail_bound: 5
+  # _target_: sbi_bax.models.flow.StackedFlow
+  # transform:
+  #   _target_: sbi_bax.models.flow.spline_inn
+  #   inp_dim: 3
+  #   nodes: 128
+  #   context_features: 1
+  #   tails: linear
+  #   tail_bound: 5
+  #   nstack: 2
+# Training hyperparameters
+train:
+  n_epochs: 100
+# Estimator definitions
+n_mc: 100_000

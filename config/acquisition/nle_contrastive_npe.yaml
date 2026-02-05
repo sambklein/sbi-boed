@@ -1,0 +1,22 @@
+---
+_target_: sbi_bax.experiments.nle_sequential.NpeNleAcquisitionContrastive
+n_designs: 512
+n_mc: 3
+n_mc_final: 100
+batch_size: 512
+n_steps: 6_000
+burn_in: 2_00
+steps_plot: 500
+lr: 0.001
+lr_flow: 0.001
+max_batches: 6
+n_model: 1
+n_thetas: ${sbi.n_samples}
+dist_penalty: true
+scale_and_shift: true
+context_encoder:
+  _target_: sbi_bax.models.mlp.Mlp
+  _partial_: true
+  output_dim: 128
+  hidden_dims: [256, 256]
+  flatten_output: true

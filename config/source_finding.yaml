@@ -1,0 +1,34 @@
+---
+# Functional experiment configuration for source finding
+defaults:
+  - dataset_encoder: transformer
+  - acquisition: npe
+  - hydra: default
+  - sbi: default
+  - design_net: default
+  - _self_
+data:
+  _target_: sbi_bax.data.source_finding.SourceFindingData
+  hyperspherical: true
+  simulator:
+    _target_: sbi_bax.simulators.source_finding.SourceFinding
+    physical_dim: 2
+    n_source: 2
+  n_points: 1000  # Number of candidate measurement points
+  bounded_domain: true
+  random_init: false
+# Experiment settings
+seed: 42
+output_dir: results
+exp_name: functional_npe_2d
+
+# Interpolated variables
+full_path: ${output_dir}/${exp_name}
+# Measurement parameters
+measurement:
+  max_measure: 10
+  initial_measure: 1
+  from_scratch: false
+# Evaluation parameters
+eval:
+  n_contrast: 1e7

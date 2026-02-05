@@ -1,0 +1,8 @@
+---
+executor: local
+jobs: 1
+printshellcmds: true
+use-singularity: false
+rerun-triggers: mtime
+rerun-incomplete: true
+# directory: /Users/samklein/code/sbi-bax

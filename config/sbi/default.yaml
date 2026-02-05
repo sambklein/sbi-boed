@@ -1,0 +1,10 @@
+---
+n_samples: 100_000
+lr: 1e-4
+batch_size: 512
+max_epochs: 50
+stop_after_epochs: 20
+validation_fraction: 0.1
+norm_theta: independent
+from_scratch: false
+model: nsf

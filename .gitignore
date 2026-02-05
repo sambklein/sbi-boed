@@ -1,0 +1,62 @@
+# Python virtual environment
+venv/
+.env/
+.pdm-python
+
+# Byte-compiled files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Pixi
+*.pixi
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.out
+*.err
+.cache/
+
+# Shell scripts
+*.sh
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE settings
+.vscode/
+.idea/
+.vscode.code-workspace
+
+# Test coverage reports
+.coverage
+htmlcov/
+*.cover
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Environment files
+.env
+*.env
+.snakemake/
+.venv/
+*.sif
+
+# Generated files
+*.bak
+*.swp
+*.swo
+*.png
+*.npy
+events.out*
+results/
+figures/

@@ -1,0 +1,28 @@
+---
+_target_: sbi_bax.experiments.base_acquisition.RandomAcquisition
+n_designs: 512
+n_mc: 3
+n_mc_final: 100
+batch_size: 1024
+n_steps: 0
+burn_in: 1_000
+steps_plot: 500
+lr: 0.01
+lr_flow: 0.001
+max_batches: 3
+n_model: 1
+n_thetas: ${sbi.n_samples}
+dist_penalty: true
+scale_and_shift: true
+context_encoder:
+  _target_: sbi_bax.models.transformer.TransformerEncoder
+  _partial_: true
+  # Transformer configuration
+  trial_net_output_dim: 128  # Must match encoder.output_dim
+  num_layers: 2
+  num_heads: 4  # trial_net_output_dim must be divisible by this
+  dim_feedforward: 128
+  dropout: 0.1
+  output_dim: 128
+  use_positional_encoding: false
+  max_sequence_length: ${measurement.max_measure}  # Maximum number of measurements

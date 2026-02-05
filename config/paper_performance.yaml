@@ -1,0 +1,75 @@
+---
+results_dir: performance_many  # Output directory name
+defaults:
+  seeds: [42]  # Just the initial seed, don't want to list all here
+  n_jobs: 100  # Number of jobs with different seeds to run
+  base_configs:
+    - pharmacokinetic
+    - source_finding
+    - source_finding_smart
+  # base_configs: [ces]
+  acquisition:
+    - contrastive_npe
+# Base fixed parameters for all experiments
+fixed_params:
+  sbi.n_samples: 100_000
+  sbi.max_epochs: 100
+  sbi.stop_after_epochs: 100  # Disable early stopping
+  sbi.from_scratch: false
+  eval.n_contrast: 1e7
+  acquisition.n_steps: 12_000
+  acquisition.n_designs: 256
+  acquisition.burn_in: 1_000
+  acquisition.n_mc_final: 1_00
+# Config-specific overrides (can include dimension sweeps)
+config_overrides:
+  source_finding:
+    # Sweep over multiple dimensions
+    dimensions: [2, 3, 5]
+    measurement.max_measure: 10
+    acquisition.n_mc: 3
+    data.simulator.n_source: 2
+  source_finding_smart:
+    # Sweep over multiple dimensions
+    dimensions: [2, 3, 5]
+    measurement.max_measure: 10
+    acquisition.n_mc: 3
+    data.simulator.n_source: 2
+  pharmacokinetic:
+    # No dimension sweep (or single dimension)
+    dimensions: [null]
+    measurement.max_measure: 5
+    acquisition.n_mc: 10
+    acquisition.max_batches: 100
+    acquisition.lr: 0.01  # 10x lr because design space scale is ~10x larger
+  pharma_no_diversity:
+    # No dimension sweep (or single dimension)
+    dimensions: [null]
+    measurement.max_measure: 5
+    acquisition.n_mc: 10
+    acquisition.max_batches: 100
+    acquisition.dist_penalty: false
+    acquisition.lr: 0.01  # 10x lr because design space scale is ~10x larger
+  pharma_no_diversity_more_samples:
+    # No dimension sweep (or single dimension)
+    dimensions: [null]
+    sbi.n_samples: 1_000_000
+    sbi.batch_size: 5120
+    measurement.max_measure: 5
+    acquisition.n_mc: 10
+    acquisition.max_batches: 100
+    acquisition.dist_penalty: false
+    acquisition.lr: 0.01  # 10x lr because design space scale is ~10x larger
+  ces:
+    # No dimension sweep (or single dimension)
+    dimensions: [null]
+    measurement.max_measure: 10
+    acquisition.n_mc: 10
+    acquisition.max_batches: 100
+    acquisition.lr: 0.1
+    sbi.n_samples: 500_000  # More data because doing NPE only
+    sbi.max_epochs: 200
+    sbi.stop_after_epochs: 100  # Disable early stopping
+    sbi.batch_size: 2048  # Larger batch size because CES is noisy
+    acquisition.lr_flow: 0.0001
+    acquisition.batch_size: 2048

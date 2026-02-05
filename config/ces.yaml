@@ -1,0 +1,30 @@
+---
+# Functional experiment configuration for source finding
+defaults:
+  - dataset_encoder: transformer
+  - acquisition: contrastive_npe
+  - hydra: default
+  - sbi: default
+  - design_net: default
+  - _self_
+data:
+  _target_: sbi_bax.data.ces.CesData
+  n_points: 1000  # Number of candidate measurement points
+  hyperspherical: false
+  simulator:
+    _target_: sbi_bax.simulators.ces.Ces
+# Experiment settings
+seed: 42
+output_dir: results
+exp_name: ces_first
+
+# Interpolated variables
+full_path: ${output_dir}/${exp_name}
+# Measurement parameters
+measurement:
+  max_measure: 5
+  initial_measure: 1
+  from_scratch: false
+# Evaluation parameters
+eval:
+  n_contrast: 1e7

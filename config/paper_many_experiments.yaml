@@ -1,0 +1,51 @@
+---
+results_dir: performance  # Output directory name
+defaults:
+  # seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61]
+  seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51]
+  base_configs: [pharmacokinetic, source_finding, source_finding_smart]
+  # base_configs: [ces]
+  acquisition:
+    - npe_no_design_dist_not_stacked
+    - nle_not_stacked
+    - contrastive
+    # - random
+# Base fixed parameters for all experiments
+fixed_params:
+  sbi.n_samples: 100_000
+  sbi.max_epochs: 100
+  sbi.stop_after_epochs: 100  # Disable early stopping
+  sbi.from_scratch: false
+  eval.n_contrast: 1e7
+  acquisition.n_steps: 12_000
+  acquisition.n_designs: 256
+  acquisition.burn_in: 1_000
+  acquisition.n_mc_final: 1_00
+# Config-specific overrides (can include dimension sweeps)
+config_overrides:
+  source_finding:
+    # Sweep over multiple dimensions
+    dimensions: [2, 3, 5]
+    measurement.max_measure: 10
+    acquisition.n_mc: 3
+    data.simulator.n_source: 2
+  source_finding_smart:
+    # Sweep over multiple dimensions
+    dimensions: [2, 3, 5]
+    measurement.max_measure: 10
+    acquisition.n_mc: 3
+    data.simulator.n_source: 2
+  pharmacokinetic:
+    # No dimension sweep (or single dimension)
+    dimensions: [null]
+    measurement.max_measure: 5
+    acquisition.n_mc: 10
+    acquisition.max_batches: 100
+    acquisition.lr: 0.01  # 10x lr because design space scale is ~10x larger
+  ces:
+    # No dimension sweep (or single dimension)
+    dimensions: [null]
+    measurement.max_measure: 10
+    acquisition.n_mc: 10
+    acquisition.max_batches: 100
+    acquisition.lr: 0.1

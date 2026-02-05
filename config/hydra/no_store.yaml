@@ -1,0 +1,13 @@
+---
+# Hydra settings
+defaults:
+  - override hydra_logging: none
+  - override job_logging: none
+job:
+  chdir: false  # Don't change working directory
+run:
+  dir: .  # Run in output directory
+output_subdir:  # Disable .hydra folder creation
+sweep:
+  dir: .
+  subdir: .

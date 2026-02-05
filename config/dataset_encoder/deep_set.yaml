@@ -1,0 +1,10 @@
+---
+# config/model/transformer.yaml
+_target_: sbi.neural_nets.embedding_nets.PermutationInvariantEmbedding
+
+# Transformer configuration
+trial_net_output_dim: ${sample_encoder.output_dim}
+aggregation_fn: mean
+num_layers: 2
+num_hiddens: 10
+output_dim: 10

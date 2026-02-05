@@ -1,0 +1,3 @@
+---
+_target_: sbi_bax.simulators.polynomial.NthOrderPolynomial
+noise_sim: ${data.noise_true}

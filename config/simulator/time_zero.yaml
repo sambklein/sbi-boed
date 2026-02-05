@@ -1,0 +1,3 @@
+---
+_target_: sbi_bax.simulators.time_zero.TimeZeroFinding
+seed: 42

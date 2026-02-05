@@ -1,0 +1,36 @@
+---
+results_dir: ablations  # Output directory name
+defaults:
+  seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51]
+  base_configs: [source_finding]
+  dist_penalty: [true, false]
+  acquisition:
+    # Design distance or distance penalty?
+    - npe_not_stacked
+    - npe_no_design_dist_not_stacked
+     # Distance penalty or not?
+    - nle_not_stacked
+    - contrastive
+    - nle_contrastive
+    # NLE and NPE without learnable scale and shift
+# Base fixed parameters for all experiments
+fixed_params:
+  sbi.n_samples: 100_000
+  sbi.max_epochs: 100
+  sbi.stop_after_epochs: 100  # Disable early stopping
+  sbi.from_scratch: false
+  eval.n_contrast: 1e7
+  acquisition.n_steps: 6_000
+# Config-specific overrides (can include dimension sweeps)
+config_overrides:
+  source_finding:
+    # Sweep single dimension
+    dimensions: [2]
+    measurement.max_measure: 10
+    acquisition.n_designs: 64
+    acquisition.n_mc: 3
+    acquisition.n_mc_final: 1_00
+    acquisition.burn_in: 1_000
+    acquisition.n_steps: 12_000
+    # acquisition.n_steps: 100
+    data.simulator.n_source: 2

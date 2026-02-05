@@ -1,0 +1,17 @@
+---
+_target_: sbi_bax.experiments.nle_sequential.NpeNleExactAcquisition
+n_designs: 512
+n_mc: 100
+n_mc_final: 100
+batch_size: 512
+n_steps: 6_000
+burn_in: 1
+steps_plot: 10
+lr: 0.1
+lr_flow: 0.001
+max_batches: 6
+n_model: 1
+n_thetas: ${sbi.n_samples}
+dist_penalty: true
+scale_and_shift: true
+context_encoder:  # Needed for compatibility

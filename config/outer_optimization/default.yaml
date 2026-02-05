@@ -1,0 +1,7 @@
+---
+crossover_type: sbx
+mutation_type: polynomial
+mutation_scale: 0.1
+mutation_prob: 0.2
+cx_prob: 0.8
+n_generations: 10

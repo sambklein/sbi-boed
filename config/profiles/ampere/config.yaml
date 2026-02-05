@@ -1,0 +1,17 @@
+---
+executor: slurm
+jobs: 150
+printshellcmds: true
+use-singularity: false
+restart-times: 0
+rerun-incomplete: true
+keep-going: true
+rerun-triggers: mtime
+default-resources:
+  - slurm_account=mli:bax@ampere
+  - slurm_partition=ampere
+  - runtime=1200
+  - mem_mb=16000
+  - slurm_extra="--gpus=1 --gres=gpu:1 --nodes=1 --cpus-per-task=4"
+# Set default container for all rules
+# container-image: "sbi_bax.sif"

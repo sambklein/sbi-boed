@@ -1,0 +1,37 @@
+---
+results_dir: ces_performance  # Output directory name
+defaults:
+  seeds: [42]  # Just the initial seed, don't want to list all here
+  n_jobs: 100  # Number of jobs with different seeds to run
+  # A few seeds just to see if you learn anything.
+  # seeds: [42, 43, 44, 45, 46]
+  base_configs: [ces]
+  acquisition:
+    # Use NPE posteriors because they are so much faster to sample from.
+    # - npe_no_design_dist_not_stacked
+    # - nle_npe
+    - contrastive_npe
+# Base fixed parameters for all experiments
+fixed_params:
+  sbi.n_samples: 1_000_000  # More data because CES is harder
+  sbi.max_epochs: 100
+  sbi.stop_after_epochs: 100  # Disable early stopping
+  sbi.from_scratch: false
+  sbi.batch_size: 8192  # Larger batch size just to be faster
+  sbi.lr: 1e-3  # Bigger lr because of larger batch size
+  eval.n_contrast: 1e7
+  acquisition.n_steps: 36_000
+  acquisition.n_designs: 256
+  acquisition.burn_in: 1_500
+  acquisition.n_mc_final: 1_00
+  acquisition.lr_flow: 0.0001
+  acquisition.batch_size: 2048
+# Config-specific overrides (can include dimension sweeps)
+config_overrides:
+  ces:
+    # No dimension sweep (or single dimension)
+    dimensions: [null]
+    measurement.max_measure: 10
+    acquisition.n_mc: 10
+    acquisition.max_batches: 100
+    acquisition.lr: 0.1  # 10x lr because design space scale is ~10x larger

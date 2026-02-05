@@ -1,0 +1,44 @@
+---
+lr: 1e-4
+lr_dn: 1e-5
+batch_size: 512
+n_steps: 100_000
+burn_in: 2_000
+# Backbone model
+backbone:
+  _target_: sbi_bax.models.transformer.TransformerEmbeddor
+  # Transformer configuration
+  trial_net_output_dim: &model_dim 64
+  num_layers: 2
+  num_heads: 4  # trial_net_output_dim must be divisible by this
+  dim_feedforward: 128
+  dropout: 0.1
+  use_positional_encoding: false
+  max_sequence_length: ${measurement.max_measure}  # Maximum number of measurements
+# Posterior transform
+inn:
+  _target_: sbi_bax.models.flow.pure_context_inn
+  context_dim: &context_dim 128
+  n_layers: 4
+  tails: linear
+  tail_bound: 3.5
+  context_encoder:
+    _target_: sbi_bax.models.conditional_linear.MLPNetwork
+    _partial_: true
+    hidden_dim: 128
+    num_blocks: 1
+# Pooling head (same for both posterior and design network)
+pool_head:
+  _target_: sbi_bax.models.transformer.TransformerPoolingHead
+  trial_net_output_dim: *model_dim
+  output_dim: *context_dim
+  dim_feedforward: *context_dim
+# Network for design
+design_net:
+  _target_: sbi_bax.models.design_nets.PredNext
+  # This is the head for the output of the dataset encoder
+predictor:
+  _target_: sbi_bax.models.mlp.Mlp
+  input_dim: ${dataset_encoder.output_dim}
+  hidden_dims: [*context_dim, *context_dim]
+  zero_init_output: true

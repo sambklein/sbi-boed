@@ -1,0 +1,23 @@
+---
+# Simple, transparent configuration for acquisition strategy comparison
+defaults:
+  seeds: [42]
+  base_configs: [source_finding]
+  acquisitions:
+    - sbi_bax.experiments.sbi_joint.NleJointOptimizationExperiment
+    - sbi_bax.experiments.sbi_joint.NpeJointOptimizationExperiment
+    - sbi_bax.experiments.random_select.RandomAcquisition
+# Base fixed parameters for all experiments
+fixed_params:
+  sbi.n_samples: 2_000
+  sbi.max_epochs: 1
+  sbi.stop_after_epochs: 10
+  sbi.from_scratch: false
+  eval.n_contrast: 1e4
+  outer_optimization.warmup.n_steps: 2
+  outer_optimization.finetune.n_steps: 2
+# Config-specific overrides
+config_overrides:
+  # Override defaults here
+  source_finding:
+    measurement.max_measure: 2

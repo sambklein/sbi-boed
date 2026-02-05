@@ -1,0 +1,6 @@
+---
+# Single trial encoder configuration
+_target_: sbi_bax.models.mlp.Mlp
+output_dim: 128  # latent_dim - must be divisible by num_heads
+hidden_dims: [256, 256]
+flatten_input: true
